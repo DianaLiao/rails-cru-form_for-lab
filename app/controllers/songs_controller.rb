@@ -8,15 +8,22 @@ class SongsController < ApplicationController
   end
 
   def new
+    @song = Song.new
   end
 
   def create
+    @song = Song.create(song_params)
+    redirect_to song_path(@song)
   end
 
   def edit
+    set_song
   end
 
   def update
+    set_song
+    @song.update(song_params)
+    redirect_to song_path(@song)
   end
 
   private
@@ -24,8 +31,8 @@ class SongsController < ApplicationController
     @song = Song.find(params[:id])
   end
 
-  def song_params(*args)
-    params.require(:song).permit(*args)
+  def song_params
+    params.require(:song).permit!
   end
 
 
